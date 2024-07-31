@@ -155,39 +155,30 @@
 
   window.addEventListener("load", initSwiper);
 
-  /**
-   * Initiate Pure Counter
-   */
-  new PureCounter();
+  function countdown() {
+    const countDownDate = new Date("Oct 04, 2024 23:59:59").getTime();
 
-  var countDownDate = new Date("Oct 04, 2024 15:37:25").getTime();
+    const updateCountdown = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = countDownDate - now;
 
-// Update the count down every 1 second
-var countdownfunction = setInterval(function() {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  // Get today's date and time
-  var now = new Date().getTime();
+        document.getElementById("days").textContent = days;
+        document.getElementById("hours").textContent = hours;
+        document.getElementById("minutes").textContent = minutes;
+        document.getElementById("seconds").textContent = seconds;
 
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
+        if (distance < 0) {
+            clearInterval(updateCountdown);
+            document.querySelector(".countdown-container").innerHTML = "EXPIRED";
+        }
+    }, 1000);
+}
 
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  // Display the result in the elements with corresponding ids
-  document.getElementById("days").innerHTML = days;
-  document.getElementById("hours").innerHTML = hours;
-  document.getElementById("minutes").innerHTML = minutes;
-  document.getElementById("seconds").innerHTML = seconds;
-
-  // If the count down is finished, write some text
-  if (distance < 0) {
-    clearInterval(countdownfunction);
-    document.getElementById("countdown").innerHTML = "EXPIRED";
-  }
-}, 1000);
+document.addEventListener("DOMContentLoaded", countdown);
 
 })();
