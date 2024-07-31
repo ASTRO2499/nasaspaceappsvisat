@@ -181,4 +181,25 @@
 
 document.addEventListener("DOMContentLoaded", countdown);
 
+function animateValue(element, start, end, duration) {
+  let startTimestamp = null;
+  const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      element.innerHTML = Math.floor(progress * (end - start) + start);
+      if (progress < 1) {
+          window.requestAnimationFrame(step);
+      }
+  };
+  window.requestAnimationFrame(step);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const stats = document.querySelectorAll('.stat-number');
+  stats.forEach(stat => {
+      const endValue = parseInt(stat.getAttribute('data-count'));
+      animateValue(stat, 0, endValue, 2000);
+  });
+});
+
 })();
